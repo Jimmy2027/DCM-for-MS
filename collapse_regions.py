@@ -71,7 +71,7 @@ for i, region in enumerate(Regions):
 dir = 'Daten/MS-new'
 for folder in [f for f in os.listdir(dir) if not f.startswith('.')]:
     for file in os.listdir(os.path.join(dir, folder)):
-        save_dir = os.path.join('Data_preprocessed', folder)
+        save_dir = os.path.join('Data_preprocessed', 'MS', folder)
         df = pd.DataFrame([[]])
         path = os.path.join(dir, folder, file)
         mat_file = loadmat(path)
@@ -92,3 +92,33 @@ for folder in [f for f in os.listdir(dir) if not f.startswith('.')]:
         new_mat_file['names'] = df.columns.to_list()
         savemat(os.path.join(save_dir, file), new_mat_file)
         df.to_csv(os.path.join(save_dir, file.split('.')[0] + '.csv'))
+
+dirs = ['Daten/HCnew', 'Daten/HC']
+for dir in dirs:
+    for file in os.listdir(dir):
+        subject = file.split('_')[1]
+        save_dir = os.path.join('Data_preprocessed', 'HC', subject)
+        df = pd.DataFrame([[]])
+        path = os.path.join(dir, file)
+        mat_file = loadmat(path)
+        names = [n.tolist()[0] for n in data_file['names'][0]]
+        data = [n[0] for n in mat_file['data'][0]]
+        struct = {}
+        for key, value in zip(names, data):
+            if len(value) > 1:
+                value = np.mean(value)
+            struct[key] = value
+        df_temp = pd.DataFrame(struct)
+        for region, region_name in zip(Regions, Regions_names):
+            df[region_name] = df_temp[region].values.mean()
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+        new_mat_file = mat_file
+        new_mat_file['data'] = df.values
+        new_mat_file['names'] = df.columns.to_list()
+        if dir == 'Daten/HCnew':
+            savemat(os.path.join(save_dir, file + '_new'), new_mat_file)
+            df.to_csv(os.path.join(save_dir, file.split('.')[0] + '_new' + '.csv'))
+        else:
+            savemat(os.path.join(save_dir, file), new_mat_file)
+            df.to_csv(os.path.join(save_dir, file.split('.')[0] + '.csv'))
