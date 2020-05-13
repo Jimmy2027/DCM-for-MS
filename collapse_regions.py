@@ -69,19 +69,19 @@ dir = 'Daten/MS-new'
 for folder in [f for f in os.listdir(dir) if not f.startswith('.')]:
     for file in os.listdir(os.path.join(dir, folder)):
         save_dir = os.path.join('Data_preprocessed', 'MS', folder)
-        df = pd.DataFrame([[]])
+        df = pd.DataFrame()
         path = os.path.join(dir, folder, file)
         mat_file = loadmat(path)
         names = [n.tolist()[0] for n in data_file['names'][0]]
-        data = [n[0] for n in mat_file['data'][0]]
+        data = [n for n in mat_file['data'][0]]
         struct = {}
         for key, value in zip(names, data):
-            if len(value) > 1:
-                value = np.mean(value)
-            struct[key] = value
-        df_temp = pd.DataFrame(struct)
+            if value.shape[1] > 1:
+                value = value.mean(1)
+            struct[key] = np.squeeze(value)
+        df_temp = pd.DataFrame(struct, index=[i for i in range(len(struct[key]))])
         for region, region_name in zip(Regions, Regions_names):
-            df[region_name] = df_temp[region].values.mean()
+            df[region_name] = df_temp[region].values.mean(1)
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
         new_mat_file = mat_file
@@ -95,19 +95,19 @@ for dir in dirs:
     for file in os.listdir(dir):
         subject = file.split('_')[1]
         save_dir = os.path.join('Data_preprocessed', 'HC', subject)
-        df = pd.DataFrame([[]])
+        df = pd.DataFrame()
         path = os.path.join(dir, file)
         mat_file = loadmat(path)
         names = [n.tolist()[0] for n in data_file['names'][0]]
-        data = [n[0] for n in mat_file['data'][0]]
+        data = [n for n in mat_file['data'][0]]
         struct = {}
         for key, value in zip(names, data):
             if len(value) > 1:
-                value = np.mean(value)
-            struct[key] = value
-        df_temp = pd.DataFrame(struct)
+                value = value.mean(1)
+            struct[key] = np.squeeze(value)
+        df_temp = pd.DataFrame(struct, index=[i for i in range(len(struct[key]))])
         for region, region_name in zip(Regions, Regions_names):
-            df[region_name] = df_temp[region].values.mean()
+            df[region_name] = df_temp[region].values.mean(1)
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
         new_mat_file = mat_file
