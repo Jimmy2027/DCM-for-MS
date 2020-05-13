@@ -87,6 +87,10 @@ for folder in [f for f in os.listdir(dir) if not f.startswith('.')]:
         new_mat_file = mat_file
         new_mat_file['data'] = df.values
         new_mat_file['names'] = df.columns.to_list()
+        split = file.split('_')
+        if len(split) > 3:
+            file = split[:3]
+            file = '_'.join(file)+ '.mat'
         savemat(os.path.join(save_dir, file), new_mat_file)
         df.to_csv(os.path.join(save_dir, file.split('.')[0] + '.csv'))
 
@@ -116,7 +120,7 @@ for dir in dirs:
         if dir == 'Daten/HCnew':
             file = file.split('.')[0] + '_new.' + file.split('.')[1]
             savemat(os.path.join(save_dir, file), new_mat_file)
-            df.to_csv(os.path.join(save_dir, file.split('.')[0] + '_new' + '.csv'))
+            df.to_csv(os.path.join(save_dir, file.split('.')[0] + '.csv'))
         else:
             savemat(os.path.join(save_dir, file), new_mat_file)
             df.to_csv(os.path.join(save_dir, file.split('.')[0] + '.csv'))
