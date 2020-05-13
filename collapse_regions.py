@@ -8,7 +8,6 @@ data_file = loadmat('Daten/HC/ROI_Subject001_Session001.mat')
 data_example = data_file['data']
 names = [n.tolist()[0] for n in data_file['names'][0]]
 names.append('Subject')
-df_HC = df_MS = pd.DataFrame(columns=names)
 
 DGMN = ['aal.{}'.format(reg) for reg in
         ['Caudate (L)', 'Caudate (R)', 'Putamen (R)', 'Putamen (L)', 'Pallidum (L)', 'Pallidum (R)', 'Thalamus (L)',
@@ -115,7 +114,8 @@ for dir in dirs:
         new_mat_file['data'] = df.values
         new_mat_file['names'] = df.columns.to_list()
         if dir == 'Daten/HCnew':
-            savemat(os.path.join(save_dir, file + '_new'), new_mat_file)
+            file = file.split('.')[0] + '_new.' + file.split('.')[1]
+            savemat(os.path.join(save_dir, file), new_mat_file)
             df.to_csv(os.path.join(save_dir, file.split('.')[0] + '_new' + '.csv'))
         else:
             savemat(os.path.join(save_dir, file), new_mat_file)
