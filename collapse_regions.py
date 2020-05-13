@@ -1,10 +1,8 @@
 # %%
 from scipy.io import loadmat, savemat
-from matplotlib import pyplot as plt
 import pandas as pd
 import os
 import numpy as np
-import pandas_profiling
 
 data_file = loadmat('Daten/HC/ROI_Subject001_Session001.mat')
 data_example = data_file['data']
