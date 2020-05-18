@@ -2,11 +2,11 @@
 % %bayes
 % 
 % %add spm12 path
-% addpath('spm12')
+addpath('spm12')
 % 
 % 
 % %specify all the GCM files for analysis (MS patients)
-% no_sessions_MS = 5;
+no_sessions_MS = 5;
 % 
 % for k = 1: no_sessions_MS
 %     specify_GCM(false,k)
@@ -70,6 +70,12 @@ field = {'A'};
 %     end
 % end
 
+% look for sparser models to describe the data
+
+
+
+%BMA = spm_dcm_peb_bmc(PEB, GCM);
+
 
 %compare session1 of HC and MS patients
 M.X = ones(2*no_subjects,1);
@@ -78,9 +84,23 @@ M.X = [M.X covariate2];
 
 HC = load([path_HC '/GCM_model1_session1.mat']);
 MS = load([path_MS '/GCM_model1_session1.mat']);
-
-GCM = {HC.GCM{:};MS.GCM{:}};
+HC = HC.GCM;
+MS = MS.GCM;
+GCM = {HC{:},MS{:}}';
 PEB = spm_dcm_peb(GCM,M.X);
 spm_dcm_peb_review(PEB,GCM);
 
+
+% compare MS patients over sessions 
+X_MS_sessions = [ones(60,1) [ones(12,1);-ones(12,1); zeros(36,1)] [zeros(12,1);ones(12,1);-ones(12,1);zeros(24,1)] [zeros(24,1);ones(12,1);-ones(12,1);zeros(12,1)] [zeros(36,1);ones(12,1);-ones(12,1)]];
+
+MS_gcm{5,1}=[];
+for i = 1: no_sessions_MS
+    temp =load([path_MS '/GCM_model1_session' num2str(i) '.mat']);
+    MS_gcm{i}= temp.GCM;
+end
+
+GCM = {MS_gcm{1}{:},MS_gcm{2}{:},MS_gcm{3}{:},MS_gcm{4}{:},MS_gcm{5}{:}}'
+PEB = spm_dcm_peb(GCM,X_MS_sessions);
+spm_dcm_peb_review(PEB,GCM);
 
