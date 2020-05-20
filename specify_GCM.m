@@ -27,7 +27,6 @@ function specify_GCM(healthy,session)
         save(fullfile(savepath,name_),'GCM');
     end
     
-    
    
 end
 
