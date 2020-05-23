@@ -59,11 +59,7 @@ function read_data_specify_dcm(subject,model,session,healthy)
     DCM.options.endogenous = 0;
     DCM.options.nograph    = 1;
 
-
-    %for i = 1: DCM.n
-    %    DCM.xY(i).name = names(i,:);
-    %end
-
+    
     %-----------------------------time series----------------------------%
     
     %assign each time series to DCM
@@ -122,8 +118,11 @@ function read_data_specify_dcm(subject,model,session,healthy)
     end
     
     %---------------------------estimate DCM-----------------------------%
+    %we used spectral DCM for estimation since we have resting state data
+    %and specified zero inputs
     
     spm_dcm_fmri_csd(DCM_model_path)
+    % data is saved directly into DCM files
 
 end
 
