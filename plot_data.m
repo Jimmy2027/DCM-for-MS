@@ -23,7 +23,7 @@ y_part_2 = [];
 %threshhold with free energy
 for i = 1:no_covariates
     for j = 1:no_param
-        if Prob_post(no_param*(i-1)+j,1) < 0.95
+        if Prob_post(no_param*(i-1)+j,1) < 0.99
             Ex_post(no_param*(i-1)+j,1)=0;
             Cov_post(no_param*(i-1)+j)=0;
         end
@@ -31,7 +31,7 @@ for i = 1:no_covariates
 end
 
 % threshhold using marginal variance
-threshold = 0.95;
+threshold = 0.99;
 T  = 0;
 Pp = 1 - spm_Ncdf(T,abs(BMA.Ep),diag(BMA.Cp));
 Ep = BMA.Ep .* (Pp(:) > threshold);
@@ -39,16 +39,17 @@ Cp = BMA.Cp .* (Pp(:) > threshold);
 Cp = diag(Cp);
 
 %plot group mean threshold based on free energy
-figure;
+figure
+subplot(2,2,1)
 bar(Ex_post(1:49,1))
 ylabel('Effect Size, thresholded with Free Energy')
 title('Posterior Parameters')
 legend('Group Mean')
 
 %plot group mean threshold based on marginal variance
-figure;
+subplot(2,2,2)
 bar(Ep(1:49,1))
-ylabel('Effect Size')
+ylabel('Effect Size, thresholded with marginal variance')
 title('Posterior Parameters')
 legend('Group Mean')
 
@@ -66,37 +67,37 @@ for j = 1:no_param
 end
 
 % stacked plot group effects thresholded with free energy >0.95
-figure;
+subplot(2,2,3)
 bar(Y,'stacked')
 title('Posterior Parameters')
-ylabel('Effect Size')
+ylabel('Effect Size, thresholded with Free Energy')
 legend('Disease','Time','Interaction Disease/Time')
 
 
 % stacked plot group effectsthresholded with marginal variance >0.95
-figure;
+subplot(2,2,4)
 bar(Y_2,'stacked');
 title('Posterior Parameters');
-ylabel('Effect Size');
+ylabel('Effect Size, thresholded with marginal variance')
+
 legend('Disease','Time','Interaction Disease/Time');
 
 
 
 %plot bar plots like spm with the two threshold methods
-legenden = {'Group Mean','Disease Effect','Time Effect','Interaction Disease/Time'};
 
 for i = 1:no_covariates
-        figure;
+        figure
         %thresholded with free energy >0.95
-        spm_plot_ci(Ex_post((i-1)*no_param+1:i*no_param,1),Cov_post((i-1)*no_param+1:i*no_param),i);
-        
-        
-        figure;
+        plot_ci(Ex_post((i-1)*no_param+1:i*no_param,1),Cov_post((i-1)*no_param+1:i*no_param),i);
+    
+        figure
         %thresholded with marginal variance >0.95
-        spm_plot_ci(Ep((i-1)*no_param+1:i*no_param,1),Cp((i-1)*no_param+1:i*no_param),i);
+        plot_ci(Ep((i-1)*no_param+1:i*no_param,1),Cp((i-1)*no_param+1:i*no_param),i);
 end
 
 
+   
 end
 
 
