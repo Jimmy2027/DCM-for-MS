@@ -26,7 +26,7 @@ for data_type = {'MS', 'HC'}
             connection_strengths = [];
             for region = 1:7
                 %calculate node strength for every region
-                connection_strength=mean(mean(A(region,:))+ mean(A(:,region))) ;
+                connection_strength=(mean(A(region,:))+ mean(A(:,region)))/2;
                 connection_strengths = [connection_strengths, connection_strength]; %node strenghts of patient "pat"
             end
             EC_patients = vertcat(EC_patients, connection_strengths);
@@ -50,7 +50,7 @@ for data_type = {'MS', 'HC'}
         subplot(2,2,1)
         xticks([1  2])
         xticklabels({'0 months','12 months'})
-        axis([0.95 2.05 -0.1 0.25])
+        axis([0.95 2.05 -0.1 0.15])
 
     end
      
@@ -58,7 +58,7 @@ for data_type = {'MS', 'HC'}
        subplot(2,2,2)
        xticks([1 2 3 4 5])
        xticklabels({'0 months','3 months','6 months','9 months','12 months'})
-       axis([0.8 5.2 -0.1 0.25])
+       axis([0.8 5.2 -0.1 0.15])
 
 
     end
@@ -84,8 +84,8 @@ for data_type = {'MS', 'HC'}
         title('Node strengths MS (linear regression)')
         legend('DGMN','Frontal','Prefrontal','Temporal','Parietal','Occipital','Cerebellum')
         legend('Location','northeastoutside')
-        axis([0.8 5.2 -0.1 0.25])
-        xticks([0,3,6,9,12])
+        axis([0.8 5.2 -0.1 0.15])
+        xticks([1 2 3 4 5])
         xticklabels({'0 months','3 months','6 months','9 months','12 months'})
         ylabel('node strength normalized')
         hold off
