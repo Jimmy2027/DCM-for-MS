@@ -1,8 +1,8 @@
-function plt_EC()
+function plt_node_strenghts()
 figure;
 for data_type = {'MS', 'HC'}
     path = strcat('DCM/',data_type{1});
-    x=[0,3,6,9,12];
+    x=[1,2,3,4,5];
     p_vec = zeros(2,7);
     delta_vec = zeros(5,7);
 
@@ -22,7 +22,7 @@ for data_type = {'MS', 'HC'}
             %load A matrix for every patient
             DCM = load([path '/Sub_' num2str(pat) '_model_' num2str(1) '/session_' num2str(session) '.mat']);
             A = DCM.Ep.A;
-            A = A - diag(A);
+            A = A - diag(diag(A));
             connection_strengths = [];
             for region = 1:7
                 %calculate node strength for every region
@@ -50,12 +50,16 @@ for data_type = {'MS', 'HC'}
         subplot(2,2,1)
         xticks([1  2])
         xticklabels({'0 months','12 months'})
+        axis([0.95 2.05 -0.1 0.25])
+
     end
      
    if data_type{1} == 'MS'
        subplot(2,2,2)
        xticks([1 2 3 4 5])
        xticklabels({'0 months','3 months','6 months','9 months','12 months'})
+       axis([0.8 5.2 -0.1 0.25])
+
 
     end
     hold on;
@@ -63,7 +67,7 @@ for data_type = {'MS', 'HC'}
         plot(EC_sessions(:,i),'-o')
     end
     title(['Node strengths',' ',data_type{1}])
-    legend('DGMN','Frontal','Prefrontal','Temporal','Parietal','Occipital','Cerebrellum')
+    legend('DGMN','Frontal','Prefrontal','Temporal','Parietal','Occipital','Cerebellum')
     ylabel('node strength normalized')
     xlabel('months from session 1')
 
@@ -78,8 +82,9 @@ for data_type = {'MS', 'HC'}
         end
         xlabel('months from session 1')
         title('Node strengths MS (linear regression)')
-        legend('DGMN','Frontal','Prefrontal','Temporal','Parietal','Occipital','Cerebrellum')
+        legend('DGMN','Frontal','Prefrontal','Temporal','Parietal','Occipital','Cerebellum')
         legend('Location','northeastoutside')
+        axis([0.8 5.2 -0.1 0.25])
         xticks([0,3,6,9,12])
         xticklabels({'0 months','3 months','6 months','9 months','12 months'})
         ylabel('node strength normalized')
