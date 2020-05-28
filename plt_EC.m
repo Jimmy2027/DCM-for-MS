@@ -1,5 +1,4 @@
 function plt_EC()
-%data_type for MS or HC (should be a string)
 figure;
 for data_type = {'MS', 'HC'}
     path = strcat('DCM/',data_type{1});
@@ -20,16 +19,19 @@ for data_type = {'MS', 'HC'}
     for session=1:nbr_sessions
         EC_patients = []; %EC values over patients
         for pat =1:12
+            %load A matrix for every patient
             DCM = load([path '/Sub_' num2str(pat) '_model_' num2str(1) '/session_' num2str(session) '.mat']);
             A = DCM.Ep.A;
             A = A - diag(A);
             connection_strengths = [];
             for region = 1:7
+                %calculate node strength for every region
                 connection_strength=mean(mean(A(region,:))+ mean(A(:,region))) ;
                 connection_strengths = [connection_strengths, connection_strength]; %node strenghts of patient "pat"
             end
             EC_patients = vertcat(EC_patients, connection_strengths);
-        end 
+        end
+        %average region node strengths over patients
         EC_sessions = vertcat(EC_sessions, mean(EC_patients,1));
         EC_stds = vertcat(EC_stds, std(EC_patients,1));
     end
@@ -44,19 +46,17 @@ for data_type = {'MS', 'HC'}
         end
     end
 
-
     if data_type{1} == 'HC'
         subplot(2,2,1)
         xticks([1  2])
         xticklabels({'0 months','12 months'})
+    end
      
-    elseif data_type{1} == 'MS'
+   if data_type{1} == 'MS'
        subplot(2,2,2)
        xticks([1 2 3 4 5])
        xticklabels({'0 months','3 months','6 months','9 months','12 months'})
 
-    else
-        disp('wrong function input')
     end
     hold on;
     for i=1:7
