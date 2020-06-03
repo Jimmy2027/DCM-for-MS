@@ -29,24 +29,25 @@ Additionaly, the code is relying on the Statistical Parametric Mapping framework
 ## Preprocessing
 Access the data with the link in the 'Data'-section above and place the folder 'Daten' into the folder 'DCM-for-MS', which has been downloaded in the previous step.
 
-To construct the time series for the 7 superordinate regions out of the 115-AAL region time series run the python-script 'collapse_regions.py'. A folder named 'Data_preprocessed' will be generated automatically and contains the data used for the DCM analysis.
+To construct the time series for the 7 superordinate regions out of the 115-AAL region time series run the python-script `collapse_regions.py`.
+A folder named 'Data_preprocessed' will be generated automatically and contains the data used for the DCM analysis.
 
 ## spectral DCM
-The file 'run_DCM.m' is used to construct all the DCM files and run the model inversion for all sessions, both groups and both models(fully connected, only self connections). Make sure the folder 'Data_preprocessed' is in the sam directory as the matlab script, before you run it, otherwise the code can not find the files and will get stuck.
+The file `run_DCM.m` is used to construct all the DCM files and run the model inversion for all sessions, both groups and both models(fully connected, only self connections). Make sure the folder 'Data_preprocessed' is in the sam directory as the matlab script, before you run it, otherwise the code can not find the files and will get stuck.
 
 The script makes a DCM folder where it saves all the DCM files with the prior parameters and posterior expectations etc.
 
 ## Node strength analysis for spectral DCM
-After running the model inversion with spectral DCM the script 'plot_EC.m' can be used to calculate all the node strengths with the method described in our report. The function will also directly plot the results over the sessions.
+After running the model inversion with spectral DCM the script `plot_EC.m` can be used to calculate all the node strengths with the method described in our report. The function will also directly plot the results over the sessions.
 
 ## Second level analysis with PEB for spectral DCM
 To calculate the independent effects (Time,Disease and Interaction TIme/Disease) as well as to look for a sparser model PEB was used with a factorial design. 
 
 Befor you run anything make sure that the DCM analysis is complete and the folder 'DCM' exists in your directory.
 
-Run the script 'run_PEB.m' this script calls two functions which construct the group DCM files out of the previously saved files in the DCM folder and runs the PEB.
+Run the script `run_PEB.m` this script calls two functions which construct the group DCM files out of the previously saved files in the DCM folder and runs the PEB.
 The PEB files are saved in the 'PEB' folder automatically. The results of the sperser models are Saved in the folder 'BMA'.
-The main results as well as the node stregths calculated after PEB averaging are plotted using the functions 'calculate_node_strength.m' and 'plot_data.m'. You don't need to run the two functions since they are already called by the 'run_PEB.m'.
+The main results as well as the node stregths calculated after PEB averaging are plotted using the functions `calculate_node_strength.m` and `plot_data.m`. You don't need to run the two functions since they are already called by the `run_PEB.m`.
 
 ## Regression DCM
 The scripts used for the Regression DCM analysis are in the subfolder 'rDCM'. @Damiano beschrieben wie man deinen Code ausführen muss und passe ihn so an dass er auch bei Ihnen läuft.
