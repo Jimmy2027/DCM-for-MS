@@ -1,26 +1,22 @@
-<<<<<<< HEAD:plt_EC.m
-function plt_EC()
-% PLT_EC() Calculates the node strengths for all sessions for both HC and MS
+function plt_node_strenghts()
+% plt_node_strenghts() Calculates the node strengths for all sessions for both HC and MS
 % patients. The node strengths are averaged over the patients.
 % The function also plots the node strengths over the session and provides
 % a linearized plot for the MS patients.
 %-------------------------------------------------------------------------%
-=======
-function plt_node_strenghts()
->>>>>>> 98c993ffba416b69a52e1c5ba57429bcf908a429:plt_node_strenghts.m
 figure;
 for data_type = {'MS', 'HC'}
     path = strcat('DCM/',data_type{1});
-    x=[1,2,3,4,5];
+    x=[0,3,6,9,12];
     p_vec = zeros(2,7);
     delta_vec = zeros(5,7);
 
     EC_sessions = []; %EC values over sessions
     EC_stds = [];
     if data_type{1} == 'MS'
-        nbr_sessions = 5
+        nbr_sessions = 5;
     elseif data_type{1} == 'HC'
-        nbr_sessions = 2
+        nbr_sessions = 2;
     else
         disp('wrong function input')
     end
@@ -35,11 +31,7 @@ for data_type = {'MS', 'HC'}
             connection_strengths = [];
             for region = 1:7
                 %calculate node strength for every region
-<<<<<<< HEAD:plt_EC.m
                 connection_strength= sum(A(:,region))+ sum(A(region,:)); 
-=======
-                connection_strength=(mean(A(region,:))+ mean(A(:,region)))/2;
->>>>>>> 98c993ffba416b69a52e1c5ba57429bcf908a429:plt_node_strenghts.m
                 connection_strengths = [connection_strengths, connection_strength]; %node strenghts of patient "pat"
             end
             EC_patients = vertcat(EC_patients, connection_strengths);
@@ -64,24 +56,16 @@ for data_type = {'MS', 'HC'}
         subplot(2,2,1)
         xticks([0  12])
         xticklabels({'0 months','12 months'})
-<<<<<<< HEAD:plt_EC.m
         axis([-1 13 -1 1.5])
-=======
-        axis([0.95 2.05 -0.1 0.15])
 
->>>>>>> 98c993ffba416b69a52e1c5ba57429bcf908a429:plt_node_strenghts.m
     end
      
    if data_type{1} == 'MS'
        subplot(2,2,2)
        xticks([0 3 6 9 12])
        xticklabels({'0 months','3 months','6 months','9 months','12 months'})
-<<<<<<< HEAD:plt_EC.m
        axis([-1 13 -1 1.5])
-=======
-       axis([0.8 5.2 -0.1 0.15])
 
->>>>>>> 98c993ffba416b69a52e1c5ba57429bcf908a429:plt_node_strenghts.m
 
     end
     hold on;
@@ -94,11 +78,7 @@ for data_type = {'MS', 'HC'}
     end
     title(['Node strengths',' ',data_type{1}])
     legend('DGMN','Frontal','Prefrontal','Temporal','Parietal','Occipital','Cerebellum')
-<<<<<<< HEAD:plt_EC.m
     ylabel('Node strength')
-=======
-    ylabel('node strength normalized')
->>>>>>> 98c993ffba416b69a52e1c5ba57429bcf908a429:plt_node_strenghts.m
     xlabel('months from session 1')
     
 
@@ -106,7 +86,7 @@ for data_type = {'MS', 'HC'}
     if data_type{1} == 'MS'
         subplot(2,2,4)
         for i = 1:7
-            f =@(x) p_vec(1,i) *x +p_vec(2,i)
+            f =@(x) p_vec(1,i) *x +p_vec(2,i);
             inter= f(x);
             errorbar(x,inter,delta_vec(:,i),'-o');
             hold on
@@ -116,7 +96,7 @@ for data_type = {'MS', 'HC'}
         legend('DGMN','Frontal','Prefrontal','Temporal','Parietal','Occipital','Cerebellum')
         legend('Location','northeastoutside')
         axis([0.8 5.2 -0.1 0.15])
-        xticks([1 2 3 4 5])
+        xticks([0 3 6 9 12])
         xticklabels({'0 months','3 months','6 months','9 months','12 months'})
         ylabel('Node strength')
         axis([-1 13  -1 1.5])
