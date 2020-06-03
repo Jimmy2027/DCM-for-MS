@@ -1,6 +1,10 @@
 function specify_GCM_all(no_sessions)
+%specify_GCM_all(healthy,session) constructs the group DCM files used in PEB
+%for each group (HC,MS) over all sessions
+%------------------------------------------------------------------------%
 
-
+    %creates folders to save group files and add paths to find the
+    %previously saved DCMs for all subjects and sessions
     if no_sessions == 5
         path = 'DCM/MS';
         savepath = 'GCM/MS';
@@ -12,6 +16,7 @@ function specify_GCM_all(no_sessions)
 
     GCM_all={};
 
+    %construct GCM-files and save them
     for k = 1:2
         for j = 1: no_sessions
             for i = 1:12

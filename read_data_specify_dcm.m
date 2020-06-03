@@ -1,5 +1,14 @@
 
 function read_data_specify_dcm(subject,model,session,healthy)
+%read_data_specify_dcm(subject,model,session,healthy) gets called by
+%run_DCM(). The function does the following:
+% - inizializes SPM
+% - reads the data from the preprocessed .mat-files
+% - specifies all the parameters to construct the spectral DCM
+% - runs spectral DCM and saves the results it in the DCM folder
+%
+%-------------------------------------------------------------------------%
+
     
     addpath spm12
     addpath Data_preprocessed/MS
@@ -77,13 +86,6 @@ function read_data_specify_dcm(subject,model,session,healthy)
     % confound matrix (constant and DCT)
     %use spm_dcmtx to generate basis set 
     DCM.Y.X0 = {spm_dctmtx(DCM.v,1)};
-    
-    %-----------------------------drivng inputs--------------------------%
-    
-    %u = inputreader() %hendriks function to create exogenous inputs for resting state 
-    DCM.U.u = ones(200,7);
-    DCM.U.dt= DCM.Y.dt;
-    DCM.U.name = 'input 0.04Hz mit gaussion noise';
     
     
     %--------------------specify DCM matrices dep. on model--------------%

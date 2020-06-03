@@ -1,9 +1,14 @@
- addpath spm12
- addpath Data_preprocessed/MS
- addpath Data_preprocessed/HC
- % for loops to go through all sessions, subjects/patients and models
+%RUN_DCM() runs the function read_data_specify_dcm(subject,model,session,healthy)
+%for all the subject sessions and the two models 
+%--> runs the spectral DCM for the preprocessed data 
+%-------------------------------------------------------------------------%
 
-% MS-Patients = 12 , Sessions 5
+addpath spm12
+addpath Data_preprocessed/MS
+addpath Data_preprocessed/HC
+% for loops to go through all sessions, subjects/patients and models
+
+% MS-Patients = 12 , Sessions = 5
 
 number = 12;
 sessions = 5;

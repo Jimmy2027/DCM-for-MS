@@ -2,8 +2,8 @@ function plot_data(BMA)
 %PLOT_DATA Plots the Expected posterior with convidence intervall over all
 %the covariates 
 %two threshold methods are applied to the expected posteriors: 
-% -marginal variance threshold with 0.95
-% -free energy based threshold with 0.95
+% -marginal variance threshold with 0.99
+% -free energy based threshold with 0.99
 %-------------------------------------------------------------------------%
 addpath('spm12');
 
@@ -88,16 +88,14 @@ legend('Disease','Time','Interaction Disease/Time');
 
 for i = 1:no_covariates
         figure
-        %thresholded with free energy >0.95
+        %thresholded with free energy >0.99
         plot_ci(Ex_post((i-1)*no_param+1:i*no_param,1),Cov_post((i-1)*no_param+1:i*no_param),i);
     
         figure
-        %thresholded with marginal variance >0.95
+        %thresholded with marginal variance >0.99
         plot_ci(Ep((i-1)*no_param+1:i*no_param,1),Cp((i-1)*no_param+1:i*no_param),i);
 end
 
-
-   
 end
 
 

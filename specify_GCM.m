@@ -1,8 +1,10 @@
 function specify_GCM(healthy,session)
-    
-    %create folders to save group files and add paths to find the
-    %previously saved DCMs for all subjects and sessions
+%specify_GCM(healthy,session) constructs the group DCM files used in PEB
+%for each session.
+%------------------------------------------------------------------------%
 
+    %creates folders to save group files and add paths to find the
+    %previously saved DCMs for all subjects and sessions
     if healthy == true
         path = fullfile('DCM', 'HC');
         savepath = fullfile('GCM', 'HC');
@@ -15,7 +17,7 @@ function specify_GCM(healthy,session)
         mkdir(savepath)
     end
     
-    %make group dcm files
+    %make group dcm files and save them
     GCM{12,1}= [];
     
     for j = 1:2 % both models
