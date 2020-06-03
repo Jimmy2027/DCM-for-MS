@@ -110,12 +110,12 @@ function read_data_specify_dcm(subject,model,session,healthy)
     if healthy == true
         path = ['HC/Sub_',num2str(subject),'_model_',num2str(model)];
         mkdir('DCM',path)
-        %save(fullfile('DCM',path,['session_',num2str(session),'.mat']),'DCM');
+        save(fullfile('DCM',path,['session_',num2str(session),'.mat']),'DCM');
         DCM_model_path = fullfile('DCM',path,['session_',num2str(session),'.mat']);
     else
         path = ['MS/Sub_',num2str(subject),'_model_',num2str(model)];
         mkdir('DCM',path)
-        %save(fullfile('DCM',path,['session_',num2str(session),'.mat']),'DCM');
+        save(fullfile('DCM',path,['session_',num2str(session),'.mat']),'DCM');
         DCM_model_path = fullfile('DCM',path,['session_',num2str(session),'.mat']);
     end
     
