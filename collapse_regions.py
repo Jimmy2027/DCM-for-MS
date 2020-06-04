@@ -1,4 +1,6 @@
-# %%
+"""
+This is a script to collapse the 115-AAL regions into 7 superordinate regions.
+"""
 from scipy.io import loadmat, savemat
 import pandas as pd
 import os
@@ -8,6 +10,8 @@ data_file = loadmat('Daten/HC/ROI_Subject001_Session001.mat')
 data_example = data_file['data']
 names = [n.tolist()[0] for n in data_file['names'][0]]
 names.append('Subject')
+
+# Define the 7 regions
 
 DGMN = ['aal.{}'.format(reg) for reg in
         ['Caudate (L)', 'Caudate (R)', 'Putamen (R)', 'Putamen (L)', 'Pallidum (L)', 'Pallidum (R)', 'Thalamus (L)',
@@ -57,7 +61,11 @@ Cerebrellum = [('aal.{}'.format(reg)).replace('_', ' ').replace(' R', ' (R)').re
 
 Regions = [DGMN, Frontal, Prefrontal, Temporal, Parietal, Occipital, Cerebrellum]
 Regions_names = ['DGMN', 'Frontal', 'Prefrontal', 'Temporal', 'Parietal', 'Occipital', 'Cerebrellum']
+
+# number of subregions for each superordinate region
 lenghts = [8, 22, 4, 22, 20, 14, 26]
+
+# verify that each region has the number of sub-regions it should have. This limits the probability of a copy-paste error.
 for i, region in enumerate(Regions):
     assert len(list(dict.fromkeys(region))) == lenghts[i], '{} should be of length {} but has length {}'.format(
         Regions_names[i], lenghts[i],
@@ -68,6 +76,7 @@ for i, region in enumerate(Regions):
 dir = 'Daten/MS-new'
 for folder in [f for f in os.listdir(dir) if not f.startswith('.')]:
     for file in os.listdir(os.path.join(dir, folder)):
+        # iterate over all the MS files and group the 115 regions into 7 regions
         save_dir = os.path.join('Data_preprocessed', 'MS', folder)
         df = pd.DataFrame()
         path = os.path.join(dir, folder, file)
@@ -77,23 +86,29 @@ for folder in [f for f in os.listdir(dir) if not f.startswith('.')]:
         struct = {}
         for key, value in zip(names, data):
             if value.shape[1] > 1:
+                # some regions have more than one value so the mean over those has to be taken
                 value = value.mean(1)
             struct[key] = np.squeeze(value)
+        # create temporary dataframe with all 115 regions and all 200 values for each region
         df_temp = pd.DataFrame(struct, index=[i for i in range(len(struct[key]))])
+        # create new dataframe with the 7 superordinate regions
         for region, region_name in zip(Regions, Regions_names):
             df[region_name] = df_temp[region].values.mean(1)
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
+        # create mat file for further use in matlab
         new_mat_file = mat_file
         new_mat_file['data'] = df.values
         new_mat_file['names'] = df.columns.to_list()
         split = file.split('_')
         if len(split) > 3:
             file = split[:3]
-            file = '_'.join(file)+ '.mat'
+            file = '_'.join(file) + '.mat'
         savemat(os.path.join(save_dir, file), new_mat_file)
+        # save csv file for easy visualisation
         df.to_csv(os.path.join(save_dir, file.split('.')[0] + '.csv'))
 
+# here the same is done for the HC data
 dirs = ['Daten/HCnew', 'Daten/HC']
 for dir in dirs:
     for file in os.listdir(dir):
