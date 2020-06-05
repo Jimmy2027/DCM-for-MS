@@ -50,8 +50,7 @@ The PEB files are saved in the 'PEB' folder automatically. The results of the sp
 The main results as well as the node stregths calculated after PEB averaging are plotted using the functions `calculate_node_strength.m` and `plot_data.m`. You don't need to run the two functions since they are already called by the `run_PEB.m`.
 
 ## Regression DCM
-The scripts used for the Regression DCM analysis are in the subfolder 'rDCM'. The live script contains the descriptions of the sections of the code, the whole folder rDCM has to be downloaded to enable the script to run, also a copy of the folder "Data_Prepocessed" is inside the folder since for rDCM the names of the files have been adapted to have a cronological sense. The script will auomatically save the result of the rDCM algorithm (by TAPAS).
-
+The scripts used for the Regression DCM analysis are in the subfolder 'rDCM'. The live script contains the descriptions of the sections of the code, the whole folder rDCM has to be downloaded to enable the script to run, the results of the rDCM algorithms are already saved in the folder as well as the "Data_preprocessed" folder. In case you want to rerun the rDCM algorithms you have to make run sections starting from (A) in the script, if you only want to make the node strength analysis and plot the result using the already computed results from rDCM run only the first cell and then skip to the sections starting from (B). 
 ## Remarks
 To succesfully run the code it is essential that you place the 'Daten' folder in the 'DCM-for-MS' directory and follow the workflow described in this read me. Do not delete any automatically created folders since they are used in later steps of the analysis. 
 
