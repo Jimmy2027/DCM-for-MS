@@ -38,7 +38,7 @@ The file `run_DCM.m` is used to construct all the DCM files and run the model in
 The script makes a DCM folder where it saves all the DCM files with the prior parameters and posterior expectations etc.
 
 ## Node strength analysis for spectral DCM
-After running the model inversion with spectral DCM the script `plot_EC.m` can be used to calculate all the node strengths with the method described in our report. The function will also directly plot the results over the sessions.
+After running the model inversion with spectral DCM the script `plt_node_strengths.m` can be used to calculate all the node strengths with the method described in our report. The function will also directly plot the results over the sessions.
 
 ## Second level analysis with PEB for spectral DCM
 To calculate the independent effects (Time,Disease and Interaction TIme/Disease) as well as to look for a sparser model PEB was used with a factorial design. 
@@ -50,8 +50,11 @@ The PEB files are saved in the 'PEB' folder automatically. The results of the sp
 The main results as well as the node stregths calculated after PEB averaging are plotted using the functions `calculate_node_strength.m` and `plot_data.m`. You don't need to run the two functions since they are already called by the `run_PEB.m`.
 
 ## Regression DCM
-The scripts used for the Regression DCM analysis are in the subfolder 'rDCM'. The live script contains the descriptions of the sections of the code, the whole folder rDCM has to be downloaded to enable the script to run, the results of the rDCM algorithms are already saved in the folder as well as the "Data_preprocessed" folder. In case you want to rerun the rDCM algorithms you have to make run sections starting from (A) in the script, if you only want to make the node strength analysis and plot the result using the already computed results from rDCM run only the first cell and then skip to the sections starting from (B). 
+The scripts used for the Regression DCM analysis are in the subfolder 'rDCM'. The live script contains the descriptions of the sections of the code. The whole rDCM folder has to be downloaded to enable the script to run, the results of the rDCM algorithms are already saved in the folder as well as the "Data_preprocessed" folder. In case you want to rerun the rDCM algorithms you have to run the sections starting from (A) in the script, if you only want to make the node strength analysis and plot the result using the already computed results from rDCM, run only the first cell and then skip to the sections starting from (B). 
+
 ## Remarks
+Only clone the master branch of this git repository! The other branches were used by our team to develop the code therefore the scrips contained by the other branches are maybe not executable ore include errors.
+
 To succesfully run the code it is essential that you place the 'Daten' folder in the 'DCM-for-MS' directory and follow the workflow described in this read me. Do not delete any automatically created folders since they are used in later steps of the analysis. 
 
 Do only run the scripts mentioned in this read-me the other .m-files are called automatically by the mentioned scripts and are helper functions.
